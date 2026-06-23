@@ -6,9 +6,6 @@ class Config(BaseSettings):
     GOOGLE_API_KEY: str
     DEEPSEEK_API_KEY: str
     DEEPSEEK_BASE_URL: str
-    OPENAI_MODEL: str
-    DEEPSEEK_MODEL: str
-    GEMINI_MODEL: str
 
     model_config = SettingsConfigDict(env_file=".env")
 

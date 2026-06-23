@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
 
 WORKDIR /app
 
@@ -9,13 +9,12 @@ COPY pyproject.toml uv.lock ./
 COPY apps/api ./apps/api
 
 ENV UV_COMPILE_BYTECODE=1
+ENV UV_PYTHON_DOWNLOADS=never
 ENV UV_LINK_MODE=copy
 
 # Install dependencies
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev --package api
-
-RUN chmod -R a+rX /app/.venv
 
 # Enable bytecode compilation and python optimization
 ENV PYTHONOPTIMIZE=1
@@ -32,10 +31,10 @@ RUN addgroup --system app && \
     chown -R app:app /app
 
 # Switch to non-root user
-# USER app
+USER app
 
 # Expose the port Streamlit runs on
 EXPOSE 8000
 
 # Command to run the application
-CMD ["python", "-m", "uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

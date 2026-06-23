@@ -2,15 +2,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Config(BaseSettings):
-    OPENAI_API_KEY: str
-    GOOGLE_API_KEY: str
-    DEEPSEEK_API_KEY: str
-    DEEPSEEK_BASE_URL: str
     OPENAI_MODEL: str
     DEEPSEEK_MODEL: str
     GEMINI_MODEL: str
+    API_URL: str = "http://api:8000"
 
     model_config = SettingsConfigDict(env_file=".env")
-
 
 config = Config()
